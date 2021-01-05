@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-halal-place-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-halal-place
+  template:
+    metadata:
+      labels:
+        app: add-halal-place
+    spec:
+      containers:
+        - image: selmah/rso-project:add-halal-place-api-v1-05-01-2021
+          name: add-halal-place
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://suleiman.db.elephantsql.com:5432/wgyzhvjo
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: wgyzhvjo
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              value: jvXTDZTYpQWoG_BfBUQDYp9uz5wBWvLD
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
