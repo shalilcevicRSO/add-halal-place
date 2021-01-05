@@ -1,0 +1,3 @@
+com\selma\halal\food\project\config\RestProperties.class
+com\selma\halal\food\project\services\producers\PersistenceProducer.class
+com\selma\halal\food\project\services\beans\AddPlaceBean.class

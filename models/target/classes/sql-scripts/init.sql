@@ -1,0 +1,1 @@
+INSERT INTO add_place_metadata (id, name, streetName, streetNumber, city, country, zipCode, description, uri, type, dateCreated) VALUES (1, 'Anatolia Kebab 12', 'Viale XX Settembre 7/a', 7, 'Trieste', 'Italy', 34126, 'Turkish halal restaurant.', 'https://m.facebook.com/anatoliakebab12/?locale2=it_IT', 'restaurant', TIMESTAMP '2021-01-05 18:55:30');

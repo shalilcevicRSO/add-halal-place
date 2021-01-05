@@ -1,0 +1,3 @@
+com\selma\halal\food\project\models\entities\AddPlaceMetadataEntity.class
+com\selma\halal\food\project\models\converters\InstantAttributeConverter.class
+com\selma\halal\food\project\models\converters\AddPlaceMetadataConverter.class
