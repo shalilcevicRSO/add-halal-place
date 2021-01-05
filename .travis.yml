@@ -1,0 +1,21 @@
+sudo: required
+services:
+- docker
+language: java
+dist: bionic
+jdk:
+- openjdk14
+cache:
+  directories:
+  - "$HOME/.m2"
+env:
+  global:
+  - DOCKER_IMAGE=selmah/rso-project:add-halal-place-api-v1-05-01-2021-$TRAVIS_JOB_NUMBER
+  - secure: qpJsXJO9qAnEDZFM0CmkCv07u4CGmcG1gEoIwgNrP6ZW9TkwsPRXPLV7Y1gA4iD6jhoUkXhpecEh6IThBNon9epFo7ryAVOD8BK2ngv7c+Xc5HI94v55Olh1TcX8Cl1vkwIy1ihkWNgDnVgzmufTYMN8cYTyIINm5CiCrK3dkkQM+6SWeR6Mz2uAbI6RTMEKqlj2RH6AfMVNy8wQGApQsip/Rwl4Faw1t7nQHWeFkA/qjVhH7nnP7qHFSdU7/KDO4MTncOnIizSb+83Y44Z2Jwl0UWhYZgzf7y0ccxBF+VhabZaytLbG5puyvJ18eCBvn4I+WFalYDjuXIvammf4ZNEFWVOKr5jvKUZOcgT0iUtnIKj6okDw3syHmb40t9NdDBGeJdtJ71ARwyRTFqOggLdd9CkExTDuto+lI91frKZsH90f0EiNu7dDA2DYwnKDigZ9oeDprhO6NBe6aMHL3Y3rmP8D5HMalSe9Xvik2EHSW6FGAQyj0SGVXmeezqDe+FBJTJr3mhokU0dMlAdYuCztmKWgCoJA6FWo/cFTbokjemXpBDJJ5QTIHC7R0Iwgf+n5pRwgvbXkEBI66wgLfdQ7m1j568Gmqnp/Ph/hPNMqceERd2mh0ivHDHoVSwDRvStzWwdNXJP+n8q53TALPKB/1Muqo9pXhnszm4NYe1c=
+  - secure: ITG5l4FuAySM7nH3QZ410Sk2l61rUmWV2qkFU6l/zsdUZKqfdJZsZ4DyT3k7Y2HLPhXwNf0cWAsggwizdkqxoOSwmKU+2LGM8O2NhB7/VphxLlXINeapY65eFXCIoBepo0ZsJBqsYUTHbhK7H0C1hVXyXV1JUQtD2lwk2JPqnvzggp0aIsCwzekX5GXc8ckG6PaGKgyMLY4qppHTcE18VwMnc1aCXJ4C69LNwXkkSmTJ0LGJ9DiPYzh0OjweuppYMwhy0oRzQkzx5iDvZkNroYtS3I/9wT2/fxw4rKSZDLeWGtRBAxM65LKXVXyAHHy6ZJAJmxDmgSniPUxgl+hhn//pv0LnG1NhsDqLuQRmLQZpSzbEQ8cjndMBo7XTVQYeKEBb7unoSlzBiuneLEKL04uaqYntZLWbCyjDStrD9Xm6DQXuohLCmI2qOLKYQ/SAEE4K6/7WOgnKI7RLC0zBjPBg3hS3qB9/iOcWHiiTZNLnlg47IAnPfcL7RH+Pxlrq1k+GBJ3EhLmY6JJQQuZw4eNsXsYA5L/pNkFXx6JEM8onTGx44r9Z49o6h1qYz84bfX6uEKM+REPuSycuEX0bPpRkmKEmR+sFaNxvQaAbwBwH9CCD8z07DEwkN7ELZZEM8z4NS3sN29TFrlhbcaVfdnrIgaRZOl5GB4Yq7cvZDFU=
+script:
+- mvn clean package -U
+- docker build -t "$DOCKER_IMAGE" .
+after_success:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push "$DOCKER_IMAGE"
