@@ -1,5 +1,6 @@
 package com.selma.halal.food.project.api.v1.resources;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.selma.halal.food.project.lib.AddPlaceMetadata;
 import com.selma.halal.food.project.services.beans.AddPlaceBean;
 
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/addplace")
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, DELETE, OPTIONS")
 public class AddPlaceResource {
 
     private Logger log = Logger.getLogger(AddPlaceResource.class.getName());
@@ -64,7 +66,7 @@ public class AddPlaceResource {
 
     @PUT
     @Path("/{id}")
-    public Response putHalalPlaceMetadata(@PathParam("id") Integer id,
+    public Response putAddPlaceMetadata(@PathParam("id") Integer id,
                                           AddPlaceMetadata addPlaceMetadata) {
 
         addPlaceMetadata = addPlaceBean.putAddPlaceMetadata(id, addPlaceMetadata);
@@ -78,7 +80,7 @@ public class AddPlaceResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteHalalPlaceMetadata(@PathParam("id") Integer id) {
+    public Response deleteAddPlaceMetadata(@PathParam("id") Integer id) {
 
         boolean deleted = addPlaceBean.deleteAddPlaceMetadata(id);
 

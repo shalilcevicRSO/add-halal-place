@@ -13,8 +13,18 @@ kumuluzee:
       username: postgres
       password: projectRSOhFood
       max-pool-size: 20
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/AddPlaceDS
+    metrics:
+      web-instrumentation:
+        - name: addplace-endpoint
+          url-pattern: /v1/addplace/*
   rest-properties:
     maintenance-mode: false
+    broken: false
 
 
 # docker run -d --name pg-search-place-metadata -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=projectRSOhFood -e POSTGRES_DB=add_place_metadata -p 5432:5432 postgres:13
