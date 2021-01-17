@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: add-halal-place-deployment
+  name: add-halal-place
 spec:
   replicas: 1
   selector:
@@ -23,6 +23,33 @@ spec:
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               value: jvXTDZTYpQWoG_BfBUQDYp9uz5wBWvLD
           ports:
-            - containerPort: 8080
+            - containerPort: 80
               name: server
               protocol: TCP
+#          livenessProbe:
+#            httpGet:
+#              path: /health/live
+#              port: server
+#            initialDelaySeconds: 20
+#            periodSeconds: 3
+#            readinessProbe:
+#              httpGet:
+#                path: /health/ready
+#                port: server
+#              initialDelaySeconds: 20
+#              periodSeconds: 3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-halal-place
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: add-halal-place

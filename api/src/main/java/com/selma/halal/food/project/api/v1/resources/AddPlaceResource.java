@@ -1,8 +1,14 @@
 package com.selma.halal.food.project.api.v1.resources;
 
 import com.kumuluz.ee.cors.annotations.CrossOrigin;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.selma.halal.food.project.lib.AddPlaceMetadata;
 import com.selma.halal.food.project.services.beans.AddPlaceBean;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -29,6 +35,7 @@ public class AddPlaceResource {
     @Context
     protected UriInfo uriInfo;
 
+
     @GET
     public Response getAddPlaceMetadata() {
         List<AddPlaceMetadata> addPlaceMetadata = addPlaceBean.getAddPlaceMetadataFilter(uriInfo);
@@ -50,6 +57,7 @@ public class AddPlaceResource {
         return Response.status(Response.Status.OK).entity(addPlaceMetadata).build();
     }
 
+    // Saves  data in its database and to halal-place-catalog
     @POST
     public Response createAddPlaceMetadata(AddPlaceMetadata addPlaceMetadata) {
 
@@ -58,6 +66,7 @@ public class AddPlaceResource {
         }
         else {
             addPlaceMetadata = addPlaceBean.createAddPlaceMetadata(addPlaceMetadata);
+            postToHalalPlaceCatalogService(addPlaceMetadata);
         }
 
         return Response.status(Response.Status.OK).entity(addPlaceMetadata).build();
@@ -90,5 +99,33 @@ public class AddPlaceResource {
         else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
+    private void postToHalalPlaceCatalogService(AddPlaceMetadata data) {
+        Unirest.setTimeouts(0, 0);
+        try {
+            HttpResponse<String> response = Unirest.post("http://localhost:8080/v1/places")
+                    .header("Content-Type", "application/json")
+                    .body(data)
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+//        OkHttpClient client = new OkHttpClient().newBuilder()
+//                .build();
+//        okhttp3.MediaType mediaType = okhttp3.MediaType.parse("application/json");
+//        RequestBody body = RequestBody.create(mediaType, String.valueOf(data));
+//        Request request = new Request.Builder()
+//                .url("http://localhost:8080/v1/places")
+//                .method("POST", body)
+//                .addHeader("Content-Type", "application/json")
+//                .build();
+//        try {
+//            okhttp3.Response response = client.newCall(request).execute();
+//
+//        } catch (Exception e){
+//
+//        }
+
     }
 }
